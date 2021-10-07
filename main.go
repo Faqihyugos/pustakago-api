@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -54,7 +55,7 @@ func queryHandler(c *gin.Context) {
 
 type BookInput struct {
 	Title string `json:"title" binding:"required"`
-	Price int `json:"price" binding:"required,number"`
+	Price json.Number `json:"price" binding:"required,number"`
 }
 
 // post books
