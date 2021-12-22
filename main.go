@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Faqihyugos/pustakago-api/book"
 	"github.com/Faqihyugos/pustakago-api/handler"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,21 @@ func main() {
 		log.Fatal("Do conection error")
 	}
 	db.AutoMigrate(&book.Book{})
+
+	//CRUD
+
+	book := book.Book{}
+	book.Title = "Atomic Habbits"
+	book.Price = 150000
+	book.Rating = 5
+	book.Description = "Buku self development tentang membangu kebiasaan baik dan menghilangkan kebiasaan buruk"
+
+	err = db.Create(&book).Error
+	if err != nil {
+		fmt.Println("===========================")
+		fmt.Println("Error creating book record")
+		fmt.Println("===========================")
+	}
 
 	// router
 	router := gin.Default()
