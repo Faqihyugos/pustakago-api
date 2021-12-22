@@ -20,18 +20,36 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	//CRUD
+	// Create
+	//book := book.Book{}
+	//book.Title = "Atomic Habbits"
+	//book.Price = 150000
+	//book.Rating = 5
+	//book.Description = "Buku self development tentang membangu kebiasaan baik dan menghilangkan kebiasaan buruk"
+	//
+	//err = db.Create(&book).Error
+	//if err != nil {
+	//	fmt.Println("===========================")
+	//	fmt.Println("Error creating book record")
+	//	fmt.Println("===========================")
+	//}
 
-	book := book.Book{}
-	book.Title = "Atomic Habbits"
-	book.Price = 150000
-	book.Rating = 5
-	book.Description = "Buku self development tentang membangu kebiasaan baik dan menghilangkan kebiasaan buruk"
+	//========
+	// Read
+	//========
 
-	err = db.Create(&book).Error
+	//var book book.Book
+	var books []book.Book
+	err = db.Debug().Find(&books).Error
 	if err != nil {
 		fmt.Println("===========================")
-		fmt.Println("Error creating book record")
+		fmt.Println("Error finding book record")
 		fmt.Println("===========================")
+	}
+
+	for _, b := range books {
+		fmt.Println("Title :", b.Title)
+		fmt.Printf("book object %v", b)
 	}
 
 	// router
