@@ -38,18 +38,21 @@ func main() {
 	// Read
 	//========
 
-	//var book book.Book
-	var books []book.Book
-	err = db.Debug().Find(&books).Error
+	var book book.Book
+
+	err = db.Debug().Where("id = ?", 1).First(&book).Error
 	if err != nil {
 		fmt.Println("===========================")
 		fmt.Println("Error finding book record")
 		fmt.Println("===========================")
 	}
 
-	for _, b := range books {
-		fmt.Println("Title :", b.Title)
-		fmt.Printf("book object %v", b)
+	book.Title = "Design Thinking 2 edition"
+	err = db.Save(&book).Error
+	if err != nil {
+		fmt.Println("===========================")
+		fmt.Println("Error updating book record")
+		fmt.Println("===========================")
 	}
 
 	// router
