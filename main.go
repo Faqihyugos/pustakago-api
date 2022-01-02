@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/Faqihyugos/pustakago-api/book"
 	"github.com/Faqihyugos/pustakago-api/handler"
 	"github.com/gin-gonic/gin"
@@ -19,50 +18,16 @@ func main() {
 	}
 	db.AutoMigrate(&book.Book{})
 
-	//CRUD
-	// Create
-	//book := book.Book{}
-	//book.Title = "Atomic Habbits"
-	//book.Price = 150000
-	//book.Rating = 5
-	//book.Description = "Buku self development tentang membangu kebiasaan baik dan menghilangkan kebiasaan buruk"
-	//
-	//err = db.Create(&book).Error
-	//if err != nil {
-	//	fmt.Println("===========================")
-	//	fmt.Println("Error creating book record")
-	//	fmt.Println("===========================")
-	//}
+	bookRepository := book.NewRepository(db)
 
-	//========
-	// Read
-	//========
-
-	var book book.Book
-
-	err = db.Debug().Where("id = ?", 1).First(&book).Error
-	if err != nil {
-		fmt.Println("===========================")
-		fmt.Println("Error finding book record")
-		fmt.Println("===========================")
+	book := book.Book{
+		Title:       "$100 Startup",
+		Description: "Good book",
+		Price:       150000,
+		Rating:      5,
 	}
 
-	err = db.Delete(&book).Error
-	if err != nil {
-		fmt.Println("===========================")
-		fmt.Println("Error deleting book record")
-		fmt.Println("===========================")
-	}
-	//===============
-	// Update data
-	//===============
-	//book.Title = "Design Thinking 2 edition"
-	//err = db.Save(&book).Error
-	//if err != nil {
-	//	fmt.Println("===========================")
-	//	fmt.Println("Error updating book record")
-	//	fmt.Println("===========================")
-	//}
+	bookRepository.Crete(book)
 
 	// router
 	router := gin.Default()
