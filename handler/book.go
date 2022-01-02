@@ -50,9 +50,9 @@ func (h *bookHandler) QueryHandler(c *gin.Context) {
 // post books
 func (h *bookHandler) PostBooksHandler(c *gin.Context) {
 	// title, price
-	var bookInput book.BookRequest
+	var bookRequest book.BookRequest
 
-	err := c.ShouldBindJSON(&bookInput)
+	err := c.ShouldBindJSON(&bookRequest)
 	if err != nil {
 
 		var errorMessages []string
@@ -67,8 +67,16 @@ func (h *bookHandler) PostBooksHandler(c *gin.Context) {
 		return
 	}
 
+	book, err := h.bookService.Create(bookRequest)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"title": bookInput.Title,
-		"price": bookInput.Price,
+		"data": book,
 	})
 }
