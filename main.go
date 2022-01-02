@@ -19,15 +19,13 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 
-	book := book.Book{
-		Title:       "$100 Startup",
-		Description: "Good book",
-		Price:       150000,
-		Rating:      5,
+	bookRequest := book.BookRequest{
+		Title: "$100 Startup ver 2",
+		Price: "90000",
 	}
-
-	bookRepository.Crete(book)
+	bookService.Create(bookRequest)
 
 	// router
 	router := gin.Default()
