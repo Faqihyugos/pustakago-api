@@ -15,7 +15,7 @@ func main() {
 	dsn := "root:Secret@tcp(127.0.0.1:3306)/pustaka-api?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Do conection error")
+		log.Fatal("Do connection error")
 	}
 	db.AutoMigrate(&book.Book{})
 
@@ -47,13 +47,22 @@ func main() {
 		fmt.Println("===========================")
 	}
 
-	book.Title = "Design Thinking 2 edition"
-	err = db.Save(&book).Error
+	err = db.Delete(&book).Error
 	if err != nil {
 		fmt.Println("===========================")
-		fmt.Println("Error updating book record")
+		fmt.Println("Error deleting book record")
 		fmt.Println("===========================")
 	}
+	//===============
+	// Update data
+	//===============
+	//book.Title = "Design Thinking 2 edition"
+	//err = db.Save(&book).Error
+	//if err != nil {
+	//	fmt.Println("===========================")
+	//	fmt.Println("Error updating book record")
+	//	fmt.Println("===========================")
+	//}
 
 	// router
 	router := gin.Default()
