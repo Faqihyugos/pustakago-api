@@ -27,7 +27,8 @@ func main() {
 	v1 := router.Group("/v1")
 	v1.GET("books/:id", bookHandler.GetBook)
 	v1.GET("/books", bookHandler.GetBooks)
-	v1.POST("/books", bookHandler.PostBooksHandler)
+	v1.POST("/books", bookHandler.CreateBook)
+	v1.PUT("/books/:id", bookHandler.UpdateBook)
 
 	router.Run(":8888")
 }
