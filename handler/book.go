@@ -17,34 +17,31 @@ func NewBookHandler(bookService book.Service) *bookHandler {
 	return &bookHandler{bookService}
 }
 
-func (h *bookHandler) RootHandler(c *gin.Context) {
+func (h *bookHandler) GetBooks(c *gin.Context) {
+	books, err := h.bookService.FindAll()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	var booksResponse []book.BookResponse
+
+	for _, b := range books {
+		bookResponse := book.BookResponse{
+			ID:          b.ID,
+			Title:       b.Title,
+			Description: b.Description,
+			Price:       b.Price,
+			Rating:      b.Rating,
+		}
+		booksResponse = append(booksResponse, bookResponse)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"name": "Faqih Yugo Susilo",
-		"bio":  "Software Engineer",
+		"data": booksResponse,
 	})
-}
-
-func (h *bookHandler) HelloHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"title":    "Hello World",
-		"subtitle": "Belajar Golang",
-	})
-}
-
-// handler func parameter/path variable
-func (h *bookHandler) BooksHandler(c *gin.Context) {
-	id := c.Param("id")
-	title := c.Param("title")
-
-	c.JSON(http.StatusOK, gin.H{"id": id, "title": title})
-}
-
-// handler query
-func (h *bookHandler) QueryHandler(c *gin.Context) {
-	title := c.Query("title")
-	price := c.Query("price")
-
-	c.JSON(http.StatusOK, gin.H{"title": title, "price": price})
 }
 
 // post books

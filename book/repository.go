@@ -30,7 +30,7 @@ func (r *repository) FindByID(ID int) (Book, error) {
 	return book, err
 }
 
-func (r *repository) Crete(book Book) (Book, error) {
+func (r *repository) Create(book Book) (Book, error) {
 	err := r.db.Create(&book).Error
 	return book, err
 }
