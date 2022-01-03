@@ -38,6 +38,24 @@ func (h *bookHandler) GetBooks(c *gin.Context) {
 		"data": booksResponse,
 	})
 }
+func (h *bookHandler) DeleteBook(c *gin.Context) {
+	idString := c.Param("id")
+	id, _ := strconv.Atoi(idString)
+
+	b, err := h.bookService.Delete(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+	bookResponse := convertToBookResponse(b)
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": bookResponse,
+	})
+}
 
 func (h *bookHandler) GetBook(c *gin.Context) {
 	idString := c.Param("id")
